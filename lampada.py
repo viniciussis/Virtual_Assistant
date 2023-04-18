@@ -21,4 +21,4 @@ def atuar_lampada(acao, objeto, porta_lampada):
         executado = True
         porta_lampada.write(DESLIGAR)
     
-    return 
+    return
