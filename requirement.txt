@@ -1,0 +1,6 @@
+pyaudio  
+regex
+nltk
+SpeechReconigtion
+PySerial
+PyGame

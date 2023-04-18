@@ -1,0 +1,144 @@
+import speech_recognition as sr
+from nltk import word_tokenize, corpus
+from lampada import *
+from tocador import *
+import json
+
+IDIOMA_CORPUS = "portuguese"
+CAMINHO_CONFIG = "C:\Vinicius2023\ViniciusIA\AssistenteVirtual\config.json"
+IDIOMA_FALA = "pt-BR"
+
+ATUADORES = [
+    {
+        "nome": "lâmpada",
+        "iniciar": iniciar_lampada,
+        "parametro_de_atuacao": None,
+        "atuar": atuar_lampada
+    },
+    {
+        "nome": "tocador",
+        "iniciar": iniciar_musica,
+        "parametro_de_atuacao": None,
+        "atuar": atuar_tocador
+    } 
+]
+
+def iniciar():
+    iniciado = False
+    
+    reconhecedor = sr.Recognizer()
+    
+    try:
+        palavras_de_parada = set(corpus.stopwords.words(IDIOMA_CORPUS))
+        with open(CAMINHO_CONFIG, "r") as arquivo_de_configuracao:
+            configuracao = json.load(arquivo_de_configuracao)
+
+            nome_do_assistente = configuracao["nome"]
+            acoes = configuracao["acoes"]
+            
+            arquivo_de_configuracao.close
+            
+        iniciado = True
+    except:
+        #processar os erros do assistente (log? recuperacao de falha?)
+        ...
+        
+    for atuador in ATUADORES:
+        parametro_de_atuacao = atuador["iniciar"]()
+        atuador["parametro_de_atuacao"] = parametro_de_atuacao
+                        
+    return iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes
+    
+def escutar_fala():
+    tem_fala = False
+    
+    with sr.Microphone() as fonte_de_audio:
+        reconhecedor.adjust_for_ambient_noise(fonte_de_audio)
+        print("Fale algo...")
+        try:
+            fala = reconhecedor.listen(fonte_de_audio, timeout = 5)
+            tem_fala = True
+        except:
+            #erros de captura de fala
+            ...
+
+    return tem_fala, fala
+
+def processar_teste(audio, reconhecedor):
+    tem_transcricao = False
+    
+    with sr.AudioFile(audio) as fonte_de_audio:
+        fala = reconhecedor.listen(fonte_de_audio)
+        try:
+            fala = reconhecedor.recognize_google(fonte_de_audio, language = IDIOMA_FALA)
+            tem_transcricao = True
+        except:
+            #erros em audios gravados
+            ...
+    
+    return tem_transcricao, transcricao.lower
+
+def transcrever_fala(fala, reconhecedor):
+    tem_transcricao = False
+    
+    try:
+        transcricao = reconhecedor.recognize_google(fala, language = IDIOMA_FALA)
+    except:
+        #erros de transcricao
+        ...
+    
+    return tem_transcricao, transcricao
+    
+def tokenizar_transcricao(transcricao):
+    return word_tokenize(transcricao)
+    
+def eliminar_palavras_de_parada(tokens, palavras_de_parada):
+    tokens_filtrados = []
+    
+    for token in tokens:
+        if token not in palavras_de_parada:
+            tokens_filtrados.append(token)
+    
+    return tokens_filtrados
+    
+def validar_comando(tokens, nome_do_assistente, acoes):
+    valido, acao, objeto = False, None, None
+    
+    if len(tokens) >= 3:
+        if nome_do_assistente == tokens[0]:
+            acao = tokens[1]
+            objeto = tokens[2]
+            
+        for acao_cadastrada in acoes:
+            if acao == acao_cadastrada["nome"]:
+                if objeto in acao_cadastrada["objetos"]:
+                    valido = True
+                    break
+
+    return valido, acao, objeto
+
+def executar_comando(acao, objeto):
+    for atuador in ATUADORES:
+        parametro_de_atuacao = atuador["parametro_de_atuacao"]
+        atuou = atuador["atuar"](acao, objeto, parametro_de_atuacao)
+        
+        if atuou:
+            break
+    
+if __name__ == "__main__":
+    iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
+    
+    if iniciado:
+        while True:
+            tem_fala, fala = escutar_fala()
+            if tem_fala:
+                tem_transcricao, transcricao = transcrever_fala()
+                if tem_transcricao:
+                    tokenizar_transcricao(transcricao)
+                    tokens = eliminar_palavras_de_parada(tokens)
+                    
+                    valido, acao, objeto = validar_comando(tokens)
+                    if valido:
+                        executar_comando(acao, objeto)
+                    else:
+                        print(f"comando inválido, tente novamente!")

@@ -1,0 +1,49 @@
+{
+    "nome": "jeremias",
+    "acoes": [
+        {
+            "nome": "ligar",
+            "objetos": [
+                "lâmpada",
+                "televisão",
+                "ar-condicionado"
+            ]
+        },
+        {
+            "nome": "desligar",
+            "objetos":[
+                "lâmpada",
+                "televisão",
+                "ar-condicionado"
+            ]
+        },
+        {
+            "nome": "aumentar",
+            "objetos": [
+                "luminosidade",
+                "volume",
+                "temperatura"
+            ]
+        },
+        {
+            "nome": "diminuir",
+            "objetos":[
+                "luminosidade",
+                "volume",
+                "temperatura"
+            ]
+        },
+        {
+            "nome": "tocar",
+            "objetos":[
+                "música"
+            ]
+        },
+        {
+            "nome": "parar",
+            "objetos":[
+                "música"
+            ]
+        }
+    ]
+}
