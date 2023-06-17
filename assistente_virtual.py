@@ -62,11 +62,7 @@ def iniciar():
     except:
         #erros do assistente
         ...
-        
-    for atuador in ATUADORES:
-        parametro_de_atuacao = atuador["iniciar"]()
-        atuador["parametro_de_atuacao"] = parametro_de_atuacao
-                        
+                                
     return iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes
     
 def escutar_fala(reconhecedor):
@@ -96,7 +92,7 @@ def processar_teste(audio, reconhecedor):
             #erros em audios gravados
             ...
     
-    return tem_transcricao, fala.lower
+    return tem_transcricao, fala.lower()
 
 def transcrever_fala(fala, reconhecedor):
     tem_transcricao = False
@@ -108,7 +104,7 @@ def transcrever_fala(fala, reconhecedor):
         #erros de transcricao
         ...
     
-    return tem_transcricao, transcricao.lower
+    return tem_transcricao, transcricao
 
 def tokenizar_transcricao(transcricao):
     return word_tokenize(transcricao)
@@ -156,7 +152,7 @@ if __name__ == "__main__":
             if tem_fala:
                 tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
                 if tem_transcricao:
-                    tokenizar_transcricao(transcricao) #adicionar "tokens = tokenizar_transcricao(transcricao)" em caso de erro
+                    tokens = tokenizar_transcricao(transcricao)
                     tokens = eliminar_palavras_de_parada(tokens, palavras_de_parada)
                     
                     valido, acao, objeto = validar_comando(tokens, nome_do_assistente, acoes)

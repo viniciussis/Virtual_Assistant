@@ -1,7 +1,6 @@
 import unittest
 from assistente_virtual import *
 
-
 CHAMANDO_LISA = "audios\nome do arquivo.wav"
 CHAMANDO_OUTRO_NOME = "audios\nome do arquivo.wav"
 COMANDO_ABRIR = "audios\nome do arquivo.wav"
@@ -23,7 +22,7 @@ class TesteNomeAssistente(unittest.TestCase):
     def testar_reconhecer_nome(self):
 
         _, reconhecedor, palavras_de_parada, _, _ = iniciar()
-        tem_fala, fala = processar_audio_da_fala(CHAMANDO_LISA, reconhecedor)
+        tem_fala, fala = processar_teste(CHAMANDO_LISA, reconhecedor)
         self.assertTrue(tem_fala)
         tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
         print(f"comando reconhecido: {transcricao}")
@@ -37,7 +36,7 @@ class TesteNomeAssistente(unittest.TestCase):
     def testar_nao_reconhecer_outro_nome(self):
 
         _, reconhecedor, palavras_de_parada, _, _ = iniciar()
-        tem_fala, fala = processar_audio_da_fala(CHAMANDO_OUTRO_NOME, reconhecedor)
+        tem_fala, fala = processar_teste(CHAMANDO_OUTRO_NOME, reconhecedor)
         self.assertTrue(tem_fala)
         tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
         print(f"comando reconhecido: {transcricao}")
@@ -55,7 +54,7 @@ class TesteAcao(unittest.TestCase):
     def testar_abrir(self):
         iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
         self.assertTrue(iniciado)
-        tem_fala, fala = processar_audio_da_fala(COMANDO_ABRIR, reconhecedor)
+        tem_fala, fala = processar_teste(COMANDO_ABRIR, reconhecedor)
         self.assertTrue(tem_fala)
         tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
         print(f"comando reconhecido: {transcricao}")
@@ -68,7 +67,7 @@ class TesteAcao(unittest.TestCase):
     def testar_calcular(self):
         iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
         self.assertTrue(iniciado)
-        tem_fala, fala = processar_audio_da_fala(COMANDO_CALCULAR, reconhecedor)
+        tem_fala, fala = processar_teste(COMANDO_CALCULAR, reconhecedor)
         self.assertTrue(tem_fala)
         tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
         print(f"comando reconhecido: {transcricao}")
@@ -81,7 +80,7 @@ class TesteAcao(unittest.TestCase):
     def testar_outra_acao(self):
         iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
         self.assertTrue(iniciado)
-        tem_fala, fala = processar_audio_da_fala(COMANDO_OUTRA_ACAO, reconhecedor)
+        tem_fala, fala = processar_teste(COMANDO_OUTRA_ACAO, reconhecedor)
         self.assertTrue(tem_fala)
         tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
         print(f"comando reconhecido: {transcricao}")
@@ -99,7 +98,7 @@ class TesteObjeto(unittest.TestCase):
     def testar_abrir_calculadora(self):
         iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
         self.assertTrue(iniciado)
-        tem_fala, fala = processar_audio_da_fala(COMANDO_ABRIR_CALCULADORA, reconhecedor)
+        tem_fala, fala = processar_teste(COMANDO_ABRIR_CALCULADORA, reconhecedor)
         self.assertTrue(tem_fala)
         tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
         print(f"comando reconhecido: {transcricao}")
@@ -112,7 +111,7 @@ class TesteObjeto(unittest.TestCase):
     def testar_calcular_Medias(self):
         iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
         self.assertTrue(iniciado)
-        tem_fala, fala = processar_audio_da_fala(COMANDO_CALCULAR_MEDIAS, reconhecedor)
+        tem_fala, fala = processar_teste(COMANDO_CALCULAR_MEDIAS, reconhecedor)
         self.assertTrue(tem_fala)
         tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
         print(f"comando reconhecido: {transcricao}")
@@ -125,7 +124,7 @@ class TesteObjeto(unittest.TestCase):
     def testar_calcular_Varancia(self):
         iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
         self.assertTrue(iniciado)
-        tem_fala, fala = processar_audio_da_fala(COMANDO_CALCULAR_VARIANCIA, reconhecedor)
+        tem_fala, fala = processar_teste(COMANDO_CALCULAR_VARIANCIA, reconhecedor)
         self.assertTrue(tem_fala)
         tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
         print(f"comando reconhecido: {transcricao}")
@@ -138,7 +137,7 @@ class TesteObjeto(unittest.TestCase):
     def testar_calcular_Desvio(self):
         iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
         self.assertTrue(iniciado)
-        tem_fala, fala = processar_audio_da_fala(COMANDO_CALCULAR_DESVIO, reconhecedor)
+        tem_fala, fala = processar_teste(COMANDO_CALCULAR_DESVIO, reconhecedor)
         self.assertTrue(tem_fala)
         tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
         print(f"comando reconhecido: {transcricao}")
@@ -151,7 +150,7 @@ class TesteObjeto(unittest.TestCase):
     def testar_abrir_video(self):
         iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
         self.assertTrue(iniciado)
-        tem_fala, fala = processar_audio_da_fala(COMANDO_ABRIR_VIDEO, reconhecedor)
+        tem_fala, fala = processar_teste(COMANDO_ABRIR_VIDEO, reconhecedor)
         self.assertTrue(tem_fala)
         tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
         print(f"comando reconhecido: {transcricao}")
@@ -164,7 +163,7 @@ class TesteObjeto(unittest.TestCase):
     def testar_abrir_outro_objeto(self):
         iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
         self.assertTrue(iniciado)
-        tem_fala, fala = processar_audio_da_fala(COMANDO_ABRIR_OUTRO_OBJETO, reconhecedor)
+        tem_fala, fala = processar_teste(COMANDO_ABRIR_OUTRO_OBJETO, reconhecedor)
         self.assertTrue(tem_fala)
         tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
         print(f"comando reconhecido: {transcricao}")
@@ -177,7 +176,7 @@ class TesteObjeto(unittest.TestCase):
     def testar_calcular_outro_objeto(self):
         iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
         self.assertTrue(iniciado)
-        tem_fala, fala = processar_audio_da_fala(COMANDO_CALCULAR_OUTRO_OBJETO, reconhecedor)
+        tem_fala, fala = processar_teste(COMANDO_CALCULAR_OUTRO_OBJETO, reconhecedor)
         self.assertTrue(tem_fala)
         tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
         print(f"comando reconhecido: {transcricao}")
