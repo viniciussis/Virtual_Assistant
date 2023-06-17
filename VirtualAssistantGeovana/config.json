@@ -2,48 +2,64 @@
     "nome": "geovana",
     "acoes": [
         {
-            "nome": "ligar",
+            "nome": "área",
             "objetos": [
-                "lâmpada",
-                "televisão",
-                "ar-condicionado"
+                "região nordeste",
+                "região sudeste",
+                "região sul",
+                "região centro-oeste",
+                "região norte"
             ]
         },
         {
-            "nome": "desligar",
-            "objetos":[
-                "lâmpada",
-                "televisão",
-                "ar-condicionado"
-            ]
-        },
-        {
-            "nome": "aumentar",
+            "nome": "flora",
             "objetos": [
-                "luminosidade",
-                "volume",
-                "temperatura"
+                "região nordeste",
+                "região sudeste",
+                "região sul",
+                "região centro-oeste",
+                "região norte"
             ]
         },
         {
-            "nome": "diminuir",
-            "objetos":[
-                "luminosidade",
-                "volume",
-                "temperatura"
+            "nome": "fauna",
+            "objetos": [
+                "região nordeste",
+                "região sudeste",
+                "região sul",
+                "região centro-oeste",
+                "região norte"
             ]
         },
         {
-            "nome": "tocar",
-            "objetos":[
-                "música"
+            "nome": "afluentes",
+            "objetos": [
+                "região nordeste",
+                "região sudeste",
+                "região sul",
+                "região centro-oeste",
+                "região norte"
             ]
         },
         {
-            "nome": "parar",
-            "objetos":[
-                "música"
+            "nome": "clima",
+            "objetos": [
+                "região nordeste",
+                "região sudeste",
+                "região sul",
+                "região centro-oeste",
+                "região norte"
+            ]
+        },
+        {
+            "nome": "população",
+            "objetos": [
+                "região nordeste",
+                "região sudeste",
+                "região sul",
+                "região centro-oeste",
+                "região norte"
             ]
         }
-    ]
+   ]
 }

@@ -1,23 +1,20 @@
 import speech_recognition as sr
 from nltk import word_tokenize, corpus
-from lampada import *
-from tocador import *
+from scraper import *
 import json
 
 IDIOMA_CORPUS = "portuguese"
-CAMINHO_CONFIG = "C:\Vinicius2023\ViniciusIA\AssistenteVirtual\config.json"
+CAMINHO_CONFIG = r"C:\Meus Repositórios\Virtual_Assistant\VirtualAssistantGeovana\config.json"
 IDIOMA_FALA = "pt-BR"
 
 ATUADORES = [
     {
         "nome": "lâmpada",
-        "iniciar": iniciar_lampada,
         "parametro_de_atuacao": None,
         "atuar": atuar_lampada
     },
     {
         "nome": "tocador",
-        "iniciar": iniciar_musica,
         "parametro_de_atuacao": None,
         "atuar": atuar_tocador
     } 
@@ -36,7 +33,7 @@ def iniciar():
             nome_do_assistente = configuracao["nome"]
             acoes = configuracao["acoes"]
             
-            arquivo_de_configuracao.close
+            arquivo_de_configuracao.close()
             
         iniciado = True
     except:
@@ -49,14 +46,14 @@ def iniciar():
                         
     return iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes
     
-def escutar_fala():
+def escutar_fala(reconhecedor):
     tem_fala = False
     
     with sr.Microphone() as fonte_de_audio:
         reconhecedor.adjust_for_ambient_noise(fonte_de_audio)
         print("Fale algo...")
         try:
-            fala = reconhecedor.listen(fonte_de_audio, timeout = 5)
+            fala = reconhecedor.listen(fonte_de_audio, timeout = 3)
             tem_fala = True
         except:
             #erros de captura de fala
@@ -130,14 +127,14 @@ if __name__ == "__main__":
     
     if iniciado:
         while True:
-            tem_fala, fala = escutar_fala()
+            tem_fala, fala = escutar_fala(reconhecedor)
             if tem_fala:
-                tem_transcricao, transcricao = transcrever_fala()
+                tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
                 if tem_transcricao:
                     tokenizar_transcricao(transcricao)
-                    tokens = eliminar_palavras_de_parada(tokens)
+                    tokens = eliminar_palavras_de_parada(tokens, palavras_de_parada)
                     
-                    valido, acao, objeto = validar_comando(tokens)
+                    valido, acao, objeto = validar_comando(tokens, nome_do_assistente, acoes)
                     if valido:
                         executar_comando(acao, objeto)
                     else:

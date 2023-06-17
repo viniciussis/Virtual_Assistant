@@ -1,76 +1,199 @@
-from assistente_virtual import *
 import unittest
+from assistente_virtual import *
 
-CHAMANDO_GEOVANA = "link/caminho"
-CHAMANDO_OUTRA_COISA = "link/caminho"
-LIGAR_LAMPADA = "link/caminho"
-DESLIGAR_LAMPADA = "link/caminho"
+
+CHAMANDO_LISA = "audios\nome do arquivo.wav"
+CHAMANDO_OUTRO_NOME = "audios\nome do arquivo.wav"
+COMANDO_ABRIR = "audios\nome do arquivo.wav"
+COMANDO_CALCULAR = "audios\nome do arquivo.wav"
+COMANDO_OUTRA_ACAO = "audios\nome do arquivo.wav"
+COMANDO_ABRIR_CALCULADORA = "audios\nome do arquivo.wav"
+COMANDO_CALCULAR_VARIANCIA = "audios\nome do arquivo.wav"
+COMANDO_CALCULAR_DESVIO = "audios\nome do arquivo.wav"
+COMANDO_CALCULAR_MEDIAS = "audios\nome do arquivo.wav"
+COMANDO_ABRIR_VIDEO = "audios\nome do arquivo.wav"
+COMANDO_ABRIR_OUTRO_OBJETO = "audios\nome do arquivo.wav"
+COMANDO_CALCULAR_OUTRO_OBJETO = "audios\nome do arquivo.wav"
 
 class TesteNomeAssistente(unittest.TestCase):
-    
+
     def setUp(self):
-        self.iniciado, self.reconhecedor, _, self.nome_do_assistente, _ = iniciar()
-    
-    def testar_01_reconhecedor_nome(self):
-        tem_transcricao, transcricao = processar_teste(CHAMANDO_GEOVANA, self.reconhecedor)
+        iniciar()
 
+    def testar_reconhecer_nome(self):
+
+        _, reconhecedor, palavras_de_parada, _, _ = iniciar()
+        tem_fala, fala = processar_audio_da_fala(CHAMANDO_LISA, reconhecedor)
+        self.assertTrue(tem_fala)
+        tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
+        print(f"comando reconhecido: {transcricao}")
         self.assertTrue(tem_transcricao)
-        
         tokens = tokenizar_transcricao(transcricao)
-        self.assertEqual(tokens[0], self.nome_do_assistente)
+        tokens = eliminar_palavras_de_parada(tokens, palavras_de_parada)
+        nome_assistente = tokens[0].lower()
+        print(f"nome do assistente: {nome_assistente}")
+        self.assertIn("lisa", nome_assistente)
 
-    def testar_02_nao_reconhecer_outro_nome(self):
-        tem_transcricao, transcricao = processar_teste(CHAMANDO_OUTRA_COISA, self.reconhecedor)
+    def testar_nao_reconhecer_outro_nome(self):
 
+        _, reconhecedor, palavras_de_parada, _, _ = iniciar()
+        tem_fala, fala = processar_audio_da_fala(CHAMANDO_OUTRO_NOME, reconhecedor)
+        self.assertTrue(tem_fala)
+        tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
+        print(f"comando reconhecido: {transcricao}")
         self.assertTrue(tem_transcricao)
-        
         tokens = tokenizar_transcricao(transcricao)
-        self.assertNotEqual(tokens[0], self.nome_do_assistente)
-        
-class TesteLampada(unittest.TestCase):
-    
+        tokens = eliminar_palavras_de_parada(tokens, palavras_de_parada)
+        nome_assistente = tokens[0].lower()
+        print(f"nome do assistente: {nome_assistente}")
+        self.assertNotIn("lisa", nome_assistente)
+
+class TesteAcao(unittest.TestCase):
     def setUp(self):
-        self.iniciado, self.reconhecedor, self.palavras_de_parada, self.nome_do_assistente, self.acoes = iniciar()
+        iniciar()
     
-    def testar_01_ligar_lampada(self):
-        tem_transcricao, transcricao = processar_teste(LIGAR_LAMPADA, self.reconhecedor)
-
+    def testar_abrir(self):
+        iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
+        self.assertTrue(iniciado)
+        tem_fala, fala = processar_audio_da_fala(COMANDO_ABRIR, reconhecedor)
+        self.assertTrue(tem_fala)
+        tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
+        print(f"comando reconhecido: {transcricao}")
         self.assertTrue(tem_transcricao)
-        
         tokens = tokenizar_transcricao(transcricao)
-        self.assertIsNotNone(tokens)
-        
-        tokens = eliminar_palavras_de_parada(tokens, self.palavras_de_parada)
-        valido, _, _ = validar_comando(tokens, self.nome_do_assistente, self.acoes)
+        tokens = eliminar_palavras_de_parada(tokens, palavras_de_parada)
+        valido, _, _ = validar_comando(tokens, nome_do_assistente, acoes)
+        self.assertTrue(valido)
+    
+    def testar_calcular(self):
+        iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
+        self.assertTrue(iniciado)
+        tem_fala, fala = processar_audio_da_fala(COMANDO_CALCULAR, reconhecedor)
+        self.assertTrue(tem_fala)
+        tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
+        print(f"comando reconhecido: {transcricao}")
+        self.assertTrue(tem_transcricao)
+        tokens = tokenizar_transcricao(transcricao)
+        tokens = eliminar_palavras_de_parada(tokens, palavras_de_parada)
+        valido, _, _ = validar_comando(tokens, nome_do_assistente, acoes)
         self.assertTrue(valido)
 
-    def testar_02_desligar_lampada(self):
-        tem_transcricao, transcricao = processar_teste(DESLIGAR_LAMPADA, self.reconhecedor)
-
+    def testar_outra_acao(self):
+        iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
+        self.assertTrue(iniciado)
+        tem_fala, fala = processar_audio_da_fala(COMANDO_OUTRA_ACAO, reconhecedor)
+        self.assertTrue(tem_fala)
+        tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
+        print(f"comando reconhecido: {transcricao}")
         self.assertTrue(tem_transcricao)
-        
         tokens = tokenizar_transcricao(transcricao)
-        self.assertIsNotNone(tokens)
-        
-        tokens = eliminar_palavras_de_parada(tokens, self.palavras_de_parada)
-        valido, _, _ = validar_comando(tokens, self.nome_do_assistente, self.acoes)
+        tokens = eliminar_palavras_de_parada(tokens, palavras_de_parada)
+        valido, _, _ = validar_comando(tokens, nome_do_assistente, acoes)
+        self.assertFalse(valido)
+
+class TesteObjeto(unittest.TestCase):
+
+    def setUp(self):
+        iniciar()
+
+    def testar_abrir_calculadora(self):
+        iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
+        self.assertTrue(iniciado)
+        tem_fala, fala = processar_audio_da_fala(COMANDO_ABRIR_CALCULADORA, reconhecedor)
+        self.assertTrue(tem_fala)
+        tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
+        print(f"comando reconhecido: {transcricao}")
+        self.assertTrue(tem_transcricao)
+        tokens = tokenizar_transcricao(transcricao)
+        tokens = eliminar_palavras_de_parada(tokens, palavras_de_parada)
+        valido, _, _ = validar_comando(tokens, nome_do_assistente, acoes)
         self.assertTrue(valido)
 
+    def testar_calcular_Medias(self):
+        iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
+        self.assertTrue(iniciado)
+        tem_fala, fala = processar_audio_da_fala(COMANDO_CALCULAR_MEDIAS, reconhecedor)
+        self.assertTrue(tem_fala)
+        tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
+        print(f"comando reconhecido: {transcricao}")
+        self.assertTrue(tem_transcricao)
+        tokens = tokenizar_transcricao(transcricao)
+        tokens = eliminar_palavras_de_parada(tokens, palavras_de_parada)
+        valido, _, _ = validar_comando(tokens, nome_do_assistente, acoes)
+        self.assertTrue(valido)
 
-""" if __name__ == "__main__":
-    iniciado, reconhecedor, _, _, _ = iniciar()
+    def testar_calcular_Varancia(self):
+        iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
+        self.assertTrue(iniciado)
+        tem_fala, fala = processar_audio_da_fala(COMANDO_CALCULAR_VARIANCIA, reconhecedor)
+        self.assertTrue(tem_fala)
+        tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
+        print(f"comando reconhecido: {transcricao}")
+        self.assertTrue(tem_transcricao)
+        tokens = tokenizar_transcricao(transcricao)
+        tokens = eliminar_palavras_de_parada(tokens, palavras_de_parada)
+        valido, _, _ = validar_comando(tokens, nome_do_assistente, acoes)
+        self.assertTrue(valido)
+
+    def testar_calcular_Desvio(self):
+        iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
+        self.assertTrue(iniciado)
+        tem_fala, fala = processar_audio_da_fala(COMANDO_CALCULAR_DESVIO, reconhecedor)
+        self.assertTrue(tem_fala)
+        tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
+        print(f"comando reconhecido: {transcricao}")
+        self.assertTrue(tem_transcricao)
+        tokens = tokenizar_transcricao(transcricao)
+        tokens = eliminar_palavras_de_parada(tokens, palavras_de_parada)
+        valido, _, _ = validar_comando(tokens, nome_do_assistente, acoes)
+        self.assertTrue(valido)
+
+    def testar_abrir_video(self):
+        iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
+        self.assertTrue(iniciado)
+        tem_fala, fala = processar_audio_da_fala(COMANDO_ABRIR_VIDEO, reconhecedor)
+        self.assertTrue(tem_fala)
+        tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
+        print(f"comando reconhecido: {transcricao}")
+        self.assertTrue(tem_transcricao)
+        tokens = tokenizar_transcricao(transcricao)
+        tokens = eliminar_palavras_de_parada(tokens, palavras_de_parada)
+        valido, _, _ = validar_comando(tokens, nome_do_assistente, acoes)
+        self.assertTrue(valido)
+
+    def testar_abrir_outro_objeto(self):
+        iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
+        self.assertTrue(iniciado)
+        tem_fala, fala = processar_audio_da_fala(COMANDO_ABRIR_OUTRO_OBJETO, reconhecedor)
+        self.assertTrue(tem_fala)
+        tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
+        print(f"comando reconhecido: {transcricao}")
+        self.assertTrue(tem_transcricao)
+        tokens = tokenizar_transcricao(transcricao)
+        tokens = eliminar_palavras_de_parada(tokens, palavras_de_parada)
+        valido, _, _ = validar_comando(tokens, nome_do_assistente, acoes)
+        self.assertFalse(valido)
     
-    if iniciado:
-        tem_transcricao, transcricao = processar_teste(CHAMANDO_GEOVANA, reconhecedor)
-        if tem_transcricao:
-            print(f"") """
-            
+    def testar_calcular_outro_objeto(self):
+        iniciado, reconhecedor, palavras_de_parada, nome_do_assistente, acoes = iniciar()
+        self.assertTrue(iniciado)
+        tem_fala, fala = processar_audio_da_fala(COMANDO_CALCULAR_OUTRO_OBJETO, reconhecedor)
+        self.assertTrue(tem_fala)
+        tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
+        print(f"comando reconhecido: {transcricao}")
+        self.assertTrue(tem_transcricao)
+        tokens = tokenizar_transcricao(transcricao)
+        tokens = eliminar_palavras_de_parada(tokens, palavras_de_parada)
+        valido, _, _ = validar_comando(tokens, nome_do_assistente, acoes)
+        self.assertFalse(valido)
+
+
 if __name__ == "__main__":
-    carregador = unittest.TestSuite() 
+    carregador = unittest.TestLoader()
     testes = unittest.TestSuite()
-    
+
     testes.addTest(carregador.loadTestsFromTestCase(TesteNomeAssistente))
-    testes.addTest(carregador.loadTestsFromTestCase(TesteLampada))
-    
+    testes.addTest(carregador.loadTestsFromTestCase(TesteAcao))
+    testes.addTest(carregador.loadTestsFromTestCase(TesteObjeto))
     executor = unittest.TextTestRunner()
-    executor
+    executor.run(testes)
