@@ -4,7 +4,7 @@ from scraper import *
 import json
 
 IDIOMA_CORPUS = "portuguese"
-CAMINHO_CONFIG = r"C:\Meus Repositórios\Virtual_Assistant\VirtualAssistantGeovana\config.json"
+CAMINHO_CONFIG = "config.json"
 IDIOMA_FALA = "pt-BR"
 
 ATUADORES = [
