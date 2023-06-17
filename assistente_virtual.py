@@ -9,15 +9,35 @@ IDIOMA_FALA = "pt-BR"
 
 ATUADORES = [
     {
-        "nome": "lâmpada",
+        "nome": "área",
         "parametro_de_atuacao": None,
-        "atuar": atuar_lampada
+        "atuar": atuar_area
     },
     {
-        "nome": "tocador",
+        "nome": "flora",
         "parametro_de_atuacao": None,
-        "atuar": atuar_tocador
-    } 
+        "atuar": atuar_flora
+    },
+    {
+        "nome": "fauna",
+        "parametro_de_atuacao": None,
+        "atuar": atuar_fauna
+    },
+    {
+        "nome": "afluentes",
+        "parametro_de_atuacao": None,
+        "atuar": atuar_afluentes
+    },
+    {
+        "nome": "clima",
+        "parametro_de_atuacao": None,
+        "atuar": atuar_clima
+    },
+    {
+        "nome": "população",
+        "parametro_de_atuacao": None,
+        "atuar": atuar_população
+    }
 ]
 
 def iniciar():
@@ -36,8 +56,11 @@ def iniciar():
             arquivo_de_configuracao.close()
             
         iniciado = True
+
+        print("Olá! Sou GEOvana, sua assistente virtual!")
+
     except:
-        #processar os erros do assistente (log? recuperacao de falha?)
+        #erros do assistente
         ...
         
     for atuador in ATUADORES:
@@ -53,7 +76,7 @@ def escutar_fala(reconhecedor):
         reconhecedor.adjust_for_ambient_noise(fonte_de_audio)
         print("Fale algo...")
         try:
-            fala = reconhecedor.listen(fonte_de_audio, timeout = 3)
+            fala = reconhecedor.listen(fonte_de_audio, timeout = 6)
             tem_fala = True
         except:
             #erros de captura de fala
@@ -73,19 +96,20 @@ def processar_teste(audio, reconhecedor):
             #erros em audios gravados
             ...
     
-    return tem_transcricao, transcricao.lower
+    return tem_transcricao, fala.lower
 
 def transcrever_fala(fala, reconhecedor):
     tem_transcricao = False
     
     try:
         transcricao = reconhecedor.recognize_google(fala, language = IDIOMA_FALA)
+        tem_transcricao = True
     except:
         #erros de transcricao
         ...
     
-    return tem_transcricao, transcricao
-    
+    return tem_transcricao, transcricao.lower
+
 def tokenizar_transcricao(transcricao):
     return word_tokenize(transcricao)
     
@@ -110,6 +134,7 @@ def validar_comando(tokens, nome_do_assistente, acoes):
             if acao == acao_cadastrada["nome"]:
                 if objeto in acao_cadastrada["objetos"]:
                     valido = True
+
                     break
 
     return valido, acao, objeto
@@ -131,7 +156,7 @@ if __name__ == "__main__":
             if tem_fala:
                 tem_transcricao, transcricao = transcrever_fala(fala, reconhecedor)
                 if tem_transcricao:
-                    tokenizar_transcricao(transcricao)
+                    tokenizar_transcricao(transcricao) #adicionar "tokens = tokenizar_transcricao(transcricao)" em caso de erro
                     tokens = eliminar_palavras_de_parada(tokens, palavras_de_parada)
                     
                     valido, acao, objeto = validar_comando(tokens, nome_do_assistente, acoes)
