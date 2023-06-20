@@ -2,3 +2,4 @@ pyaudio
 regex
 nltk
 SpeechRecognition
+openai

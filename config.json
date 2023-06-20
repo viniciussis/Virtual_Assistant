@@ -2,7 +2,7 @@
     "nome": "geovana",
     "acoes": [
         {
-            "nome": "área",
+            "acao": "área",
             "objetos": [
                 "região nordeste",
                 "região sudeste",
@@ -12,7 +12,7 @@
             ]
         },
         {
-            "nome": "flora",
+            "acao": "flora",
             "objetos": [
                 "região nordeste",
                 "região sudeste",
@@ -22,7 +22,7 @@
             ]
         },
         {
-            "nome": "fauna",
+            "acao": "fauna",
             "objetos": [
                 "região nordeste",
                 "região sudeste",
@@ -32,7 +32,7 @@
             ]
         },
         {
-            "nome": "afluentes",
+            "acao": "afluentes",
             "objetos": [
                 "região nordeste",
                 "região sudeste",
@@ -42,7 +42,7 @@
             ]
         },
         {
-            "nome": "clima",
+            "acao": "clima",
             "objetos": [
                 "região nordeste",
                 "região sudeste",
@@ -52,7 +52,7 @@
             ]
         },
         {
-            "nome": "população",
+            "acao": "população",
             "objetos": [
                 "região nordeste",
                 "região sudeste",

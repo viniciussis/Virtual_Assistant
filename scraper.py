@@ -1,69 +1,86 @@
-import webbrowser as wb
+from key import API_KEY
+import requests
+import json
 
-url = "https://www.todamateria.com.br/media/#:~:text=M%C3%A9dia%20Aritm%C3%A9tica%20Simples,2%2C...%2Cxn%3A%20valores%20dos%20dados"
+def gpt_get_message(question):
+    headers = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
+    link = "https://api.openai.com/v1/chat/completions"
+    id_model = "gpt-3.5-turbo"
+
+    body_message = {
+        "model": id_model,
+        "messages": [{"role": "user", "content": question}]
+    }
+
+    body_message = json.dumps(body_message)
+
+    requisicao = requests.post(link, headers=headers, data=body_message)
+    resposta = requisicao.json()
+    mensagem = resposta["choices"][0]["message"]["content"]
+    print(mensagem)
 
 def atuar_area(acao, objeto, _):
     executado = False
 
-    if acao == "área" and objeto == "região nordeste":  
+    if acao == "área" and objeto in ["região nordeste", "região sudeste", "região sul", "região centro-oeste", "região norte"]:  
         executado = True
         
-        wb.open(url)
-        print("É claro! A área da {objeto} é...")
+        print(f"É claro! Aqui estão informações sobre a área da {objeto} do Brasil...")
+        gpt_get_message(f"Qual a área da {objeto} do Brasil?")
 
     return executado
 
 def atuar_flora(acao, objeto, _):
     executado = False
 
-    if acao == "flora" and objeto == "região nordeste" or objeto == "região sudeste" or objeto == "região sul" or objeto == "região centro-oeste" or objeto == "região norte":  
+    if acao == "flora" and objeto in ["região nordeste", "região sudeste", "região sul", "região centro-oeste", "região norte"]:  
         executado = True
         
-        wb.open(url)
-        print("É claro! A flora da {objeto} é...")
+        print(f"É claro! Aqui estão informações sobre a flora da {objeto} do Brasil...")
+        gpt_get_message(f"Me dê informações sobre a flora da {objeto} do Brasil?")
 
     return executado
 
 def atuar_fauna(acao, objeto, _):
     executado = False
-    
-    if acao == "fauna" and objeto == "região nordeste" or objeto == "região sudeste" or objeto == "região sul" or objeto == "região centro-oeste" or objeto == "região norte":  
+
+    if acao == "fauna" and objeto in ["região nordeste", "região sudeste", "região sul", "região centro-oeste", "região norte"]:  
         executado = True
         
-        wb.open(url)
-        print("É claro! A fauna da {objeto} é...")
+        print(f"É claro! Aqui estão informações sobre a fauna da {objeto}...")
+        gpt_get_message(f"Me dê informações sobre a fauna da {objeto} do Brasil?")
 
     return executado
 
 def atuar_afluentes(acao, objeto, _):
     executado = False
-    
-    if acao == "afluentes" and objeto == "região nordeste" or objeto == "região sudeste" or objeto == "região sul" or objeto == "região centro-oeste" or objeto == "região norte":  
+
+    if acao == "afluentes" and objeto in ["região nordeste", "região sudeste", "região sul", "região centro-oeste", "região norte"]:  
         executado = True
         
-        wb.open(url)
-        print("É claro! Os principais afluentes da {objeto} são...")
+        print(f"É claro! Aqui estão informações sobre os principais afluentes da {objeto}...")
+        gpt_get_message(f"Quais os principais afluentes da {objeto} do Brasil?")
 
     return executado
 
 def atuar_clima(acao, objeto, _):
     executado = False
-    
-    if acao == "clima" and objeto == "região nordeste" or objeto == "região sudeste" or objeto == "região sul" or objeto == "região centro-oeste" or objeto == "região norte":  
+
+    if acao == "clima" and objeto in ["região nordeste", "região sudeste", "região sul", "região centro-oeste", "região norte"]:  
         executado = True
         
-        wb.open(url)
-        print("É claro! O clima da {objeto} é...")
+        print(f"É claro! Aqui estão informações sobre o clima da {objeto}...")
+        gpt_get_message(f"Como é o clima da {objeto} do Brasil?")
 
     return executado
 
 def atuar_população(acao, objeto, _):
     executado = False
-    
-    if acao == "população" and objeto == "região nordeste" or objeto == "região sudeste" or objeto == "região sul" or objeto == "região centro-oeste" or objeto == "região norte":  
+
+    if acao == "população" and objeto in ["região nordeste", "região sudeste", "região sul", "região centro-oeste", "região norte"]:  
         executado = True
         
-        wb.open(url)
-        print("É claro! A população da {objeto} é...")
+        print(f"É claro! Aqui estão informações sobre a população da {objeto}...")
+        gpt_get_message(f"Qual a população da {objeto} do Brasil?")
 
     return executado
